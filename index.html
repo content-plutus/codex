@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Performance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="plutusChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="tlsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="glChart"></canvas>
+    </div>
+<script>
+const months = ["April", "May", "June"];
+
+function createConfig(label, revenueData, txnData) {
+    return {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Revenue',
+                data: revenueData,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                yAxisID: 'y',
+            }, {
+                label: 'Txns',
+                data: txnData,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                yAxisID: 'y1',
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: label
+                },
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Revenue'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Txns'
+                    }
+                }
+            }
+        }
+    };
+}
+
+new Chart(
+    document.getElementById('plutusChart'),
+    createConfig('Plutus', [15989222, 18590691, 23249327], [152, 163, 254])
+);
+new Chart(
+    document.getElementById('tlsChart'),
+    createConfig('TLS', [4955399, 6474127, 10610463], [104, 132, 227])
+);
+new Chart(
+    document.getElementById('glChart'),
+    createConfig('GL', [16385766, 26820138, 25579234], [3549, 4723, 6347])
+);
+</script>
+</body>
+</html>
